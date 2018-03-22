@@ -1,0 +1,8 @@
+; TEST CASES
+(TREE-CONTAINS 3 '(1 2 3))
+
+(TREE-CONTAINS 3 '((1 2 3) 7 8))
+
+(TREE-CONTAINS 11 '((1 2 3) 5 (6 8 (9 10 (11 12 13)))))
+
+(TREE-CONTAINS 4 '((1 2 3) 7 8))

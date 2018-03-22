@@ -1,0 +1,71 @@
+%%%%%%%%%% DOCUMENT STUFF %%%%%%%%%%
+
+\documentclass[10.5pt,letterpaper]{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{datetime}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage[margin=1in]{geometry}
+\usepackage{courier}
+\usepackage{listings}
+\usepackage{mips}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{colortbl}
+\usepackage{mdframed}
+\usepackage{xcolor}
+
+%%%%%%%%%% FORMATTING %%%%%%%%%%
+
+\newdate{date}{26}{11}{2017}
+\spacing{1.5}
+\date{\displaydate{date}}
+\setcounter{secnumdepth}{0}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\lstset{language=[mips]Assembler}
+\usetikzlibrary{arrows,shapes,automata,petri,positioning,calc}
+
+\tikzset{
+    place/.style={
+        circle,
+        thick,
+        draw=black,
+        minimum size=6mm,
+    },
+        state/.style={
+        circle,
+        thick,
+        draw=black!75,
+        %fill=green!20,
+        minimum size=6mm,
+    },
+}
+
+\graphicspath{{images/}}
+
+%%%%%%%%%% CONTENT %%%%%%%%%%
+
+%%%%% COVER PAGE %%%%%
+
+\begin{document}
+\title{CS 161: Homework 8}
+\author{
+	Jonathan Woong\\
+	804205763\\
+	Fall 2017\\
+	Discussion 1A}
+\maketitle
+\pagebreak
+
+%%%%% PROBLEMS %%%%%
+
+\begin{enumerate}[label=\textbf{Problem \arabic*.}]
+\item Conisder the following problem which was discussed in class: \\
+Suppose that we have a patient who was just tested for a particular disease and the test came out positive. We know that one in every thousand people has this disease. We also know that the test is not reliable: it has a false positive rate of 2\% and a false negative rate of 5\%. Our goal is then to assess our belief in the patient having the disease given that the test came out positive. If we let the propositional variable D stand for the patient has the disease, and the propositional variable T stand for the test came out positive, our goal is then to compute $Pr(D|T)$.
+\end{enumerate}
+\end{document}

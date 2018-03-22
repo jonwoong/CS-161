@@ -1,0 +1,202 @@
+%%%%%%%%%% DOCUMENT STUFF %%%%%%%%%%
+
+\documentclass[10.5pt,letterpaper]{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{datetime}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage[margin=1in]{geometry}
+\usepackage{courier}
+\usepackage{listings}
+\usepackage{mips}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{colortbl}
+\usepackage{mdframed}
+\usepackage{xcolor}
+
+%%%%%%%%%% FORMATTING %%%%%%%%%%
+
+\newdate{date}{09}{11}{2017}
+\spacing{1.5}
+\date{\displaydate{date}}
+\setcounter{secnumdepth}{0}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\lstset{language=[mips]Assembler}
+\usetikzlibrary{arrows,shapes,automata,petri,positioning,calc}
+
+\tikzset{
+    place/.style={
+        circle,
+        thick,
+        draw=black,
+        minimum size=6mm,
+    },
+        state/.style={
+        circle,
+        thick,
+        draw=black!75,
+        %fill=green!20,
+        minimum size=6mm,
+    },
+}
+
+\graphicspath{{images/}}
+
+%%%%%%%%%% CONTENT %%%%%%%%%%
+
+%%%%% COVER PAGE %%%%%
+
+\begin{document}
+\title{CS 161: Homework 5}
+\author{
+	Jonathan Woong\\
+	804205763\\
+	Fall 2017\\
+	Discussion 1A}
+\maketitle
+\pagebreak
+
+%%%%% PROBLEMS %%%%%
+
+\begin{enumerate}[label=\textbf{Problem \arabic*.}]
+\item Use truth tables (worlds) to show that the following pairs of sentences are equivalent:
+	\begin{itemize}
+		\item P $\implies \neg$ Q, Q $\implies \neg$ P \\
+			P $\implies \neg$ Q $\rightarrow$ $\neg$ P $\lor \neg$ Q \\
+			Q $\implies \neg$ P $\rightarrow$ $\neg$ Q $\lor \neg$ P \\
+			\begin{tabular} { |c|c|c|c| }
+			\hline
+			P & Q & $\neg$ P $\lor \neg$ Q & $\neg$ Q $\lor \neg$ P \\
+			\hline
+			F & F & \cellcolor{green!25}T & \cellcolor{green!25}T \\
+			\hline
+			F & T & \cellcolor{green!25}T & \cellcolor{green!25}T \\
+			\hline
+			T & F & \cellcolor{green!25}T & \cellcolor{green!25}T \\
+			\hline
+			T & T & \cellcolor{green!25}F & \cellcolor{green!25}F \\
+			\hline
+			\end{tabular}
+		\item P $\Leftrightarrow \neg$ Q, ((P $\land \neg$ Q) $\lor$ ($\neg$ P $\land$ Q)) \\ 
+			P $\Leftrightarrow \neg$ Q $\equiv$ (P $\implies \neg$ Q) $\land$ ($\neg$ Q $\implies$ P)\\
+				\tab P $\implies \neg$ Q $\equiv \neg$P $\lor \neg$ Q \\
+				\tab $\neg$ Q $\implies$ P $\equiv$ Q $\lor$ P \\
+			\begin{tabular} { |c|c|c|c|c|c|c|c| }
+			\hline
+			P & Q & $\neg$ P $\lor \neg$ Q & Q $\lor$ P & ((P $\lor \neg$ Q) $\land$ (Q $\lor$ P)) & P $\land \neg$ Q & $\neg$ P $\land$ Q & ((P $\land \neg$ Q) $\lor$ ($\neg$ P $\land$ Q)) \\
+			\hline
+			F & F & T & F & \cellcolor{green!25}F & F & F & \cellcolor{green!25}F  \\
+			\hline
+			F & T & T & T & \cellcolor{green!25}T & F & T & \cellcolor{green!25}T\\
+			\hline
+			T & F & T & T & \cellcolor{green!25}T & T & F & \cellcolor{green!25}T \\
+			\hline
+			T & T & F & T & \cellcolor{green!25}F & F & F & \cellcolor{green!25}F \\
+			\hline
+			\end{tabular}
+	\end{itemize}
+	\item Consider the following sentences and decide for each whether it is valid, unsatisfiable, or neither:
+		\begin{itemize}
+			\item (Smoke $\implies$ Fire) $\implies$ ($\neg$ Smoke $\implies$ $\neg$ Fire) $\equiv$ ($\neg$ Smoke $\lor$ Fire) $\implies$ (Smoke $\lor \neg$ Fire)
+				\begin{tabular} {|c|c|c|c|}
+				\hline
+				Smoke & Fire & $\neg$ Smoke $\lor$ Fire & Smoke $\lor \neg$ Fire \\
+				\hline
+				F & F & \cellcolor{green!25}T & \cellcolor{green!25}T \\
+				\hline
+				F & T & \cellcolor{red!25}T & \cellcolor{red!25}F \\
+				\hline
+				T & F & \cellcolor{red!25}F & \cellcolor{red!25}T \\
+				\hline
+				T & T & \cellcolor{green!25}T & \cellcolor{green!25}T \\
+				\hline
+				\end{tabular} \\
+				\boxed{\text{This is not valid and not unsatisfiable, but it is satisfiable.}}
+			\item (Smoke $\implies$ Fire) $\implies$ ((Smoke $\lor$ Heat) $\implies$ Fire) $\equiv$ ($\neg$ Smoke $\lor$ Fire) $\implies$ (($\neg$ Smoke $\land \neg$ Heat) $\lor$ Fire) \\
+				\begin{tabular} {|c|c|c|c|c|c|}
+				\hline
+				Smoke & Fire & Heat& $\neg$ Smoke $\lor$ Fire & $\neg$ Smoke $\land \neg$ Heat & ($\neg$ Smoke $\land \neg$ Heat) $\lor$ Fire \\
+				\hline
+				F & F & F & \cellcolor{green!25}T & T & \cellcolor{green!25}T \\
+				\hline
+				F & T & T & \cellcolor{green!25}T & F & \cellcolor{green!25}T \\
+				\hline
+				T & F & F & \cellcolor{green!25}F & F & \cellcolor{green!25}F \\
+				\hline
+				T & T & T & \cellcolor{green!25}T & F & \cellcolor{green!25}T \\
+				\hline
+				\end{tabular} \\
+				\boxed{\text{This is valid.}}
+			\item ((Smoke $\land$ Heat $\implies$ Fire) $\Leftrightarrow$ ((Smoke$\implies$Fire) $\lor$ (Heat$\implies$Fire)))\\
+			$\equiv$ (($\neg$ Smoke $\lor \neg$ Heat $\lor$ Fire) $\Leftrightarrow$ (($\neg$ Smoke $\lor$ Fire) $\lor$ ($\neg$ Heat $\lor$ Fire)))\\
+			$\equiv$ ($\neg$ Smoke $\lor \neg$ Heat $\lor$ Fire) $\implies$ (($\neg$ Smoke $\lor$ Fire) $\lor$ ($\neg$ Heat $\lor$ Fire))) \\
+			\tab $\land$ (($\neg$ Smoke $\lor$ Fire) $\lor$ ($\neg$ Heat $\lor$ Fire))) $\implies$ ($\neg$ Smoke $\lor \neg$ Heat $\lor$ Fire) \\ 
+				\hspace*{-4cm}\begin{tabular} {|c|c|c|c|c|c|c|}
+				\hline
+				Smoke & Fire & Heat& ($\neg$ Smoke $\lor \neg$ Heat $\lor$ Fire) & $\neg$ Smoke $\lor$ Fire & $\neg$ Heat $\lor$ Fire & (($\neg$ Smoke $\lor$ Fire) $\lor$ ($\neg$ Heat $\lor$ Fire)))\\
+				\hline
+				F & F & F & \cellcolor{green!25}T & T & T & \cellcolor{green!25}T\\
+				\hline
+				F & F & T & \cellcolor{green!25}T & T & F & \cellcolor{green!25}T\\
+				\hline
+				F & T & F & \cellcolor{green!25}T & T & T & \cellcolor{green!25}T\\
+				\hline
+				F & T & T & \cellcolor{green!25}T & T & T & \cellcolor{green!25}T\\
+				\hline
+				T & F & F & \cellcolor{green!25}T & F & T & \cellcolor{green!25}T\\
+				\hline
+				T & F & T & \cellcolor{green!25}F & F & F & \cellcolor{green!25}F\\
+				\hline
+				T & T & F & \cellcolor{green!25}T & T & T & \cellcolor{green!25}T\\
+				\hline
+				T & T & T & \cellcolor{green!25}T & T & T & \cellcolor{green!25}T\\
+				\hline
+				\end{tabular} \\
+				\boxed{\text{This is valid.}}
+		\end{itemize}
+		\item Consider the following:\\
+		\textit{If the unicorn is mythical, then it is immortal, but if it is not mythical, then it is a mortal mammal. If the unicorn is either immortal or a mammal, then it is horned. The unicorn is magical if it is horned.}
+			\begin{enumerate}[label=(\alph*)]
+			\item Represent the above information using a propositional logic knowledge base (set of sentences in propositional logic).\\
+			MYTHICAL = unicorn is mythical\\
+			IMMORTAL = unicorn is immortal\\
+			MAMMAL = unicorn is mammal\\
+			MAGICAL = unicorn is magical\\
+			HORNED = unicorn is horned
+				\begin{enumerate}[label=\Roman*.]
+					\item MYTHICAL $\implies$ IMMORTAL
+					\item $\neg$ MYTHICAL $\implies$ $\neg$ IMMORTAL $\land$ MAMMAL
+					\item (IMMORTAL $\lor$ MAMMAL) $\implies$ HORNED
+					\item HORNED $\implies$ MAGICAL
+				\end{enumerate}
+			\item Convert the knowledge base into CNF.
+				\begin{enumerate}[label=\Roman*.]
+					\item $\neg$ MYTHICAL $\lor$ IMMORTAL
+					\item MYTHICAL $\lor$ ($\neg$ IMMORTAL $\land$ MAMMAL)
+					\item ($\neg$IMMORTAL $\land$ $\neg$MAMMAL) $\lor$ HORNED $\equiv$ ($\neg$IMMORTAL $\lor$ HORNED) $\land$ ($\neg$MAMMAL $\lor$ HORNED)
+						\begin{enumerate}[label=III\alph*.]
+						\item $\neg$IMMORTAL $\lor$ HORNED
+						\item $\neg$MAMMAL $\lor$ HORNED
+						\end{enumerate}
+					\item $\neg$HORNED $\lor$ MAGICAL
+				\end{enumerate}
+			\item Can you use the knowledge base to prove that the unicorn is mythical? How about magical? Horned?
+				\begin{enumerate}[label=\arabic*)]
+					\item Resolve I and II: IMMORTAL $\lor$ ($\neg$ IMMORTAL $\land$ MAMMAL)
+					\item Expand 1: (IMMORTAL $\lor \neg$IMMORTAL) $\land$ (IMMORTAL $\lor$ MAMMAL)
+					\item Simplify 2: (IMMORTAL $\lor$ MAMMAL)
+					\item Resolve 3 and IIIa: HORNED $\lor$ MAMMAL
+					\item Resolve 4 and IIIb: (HORNED $\lor$ HORNED)
+					\item Simplify 5: HORNED
+					\item Resolve 6 and IV: MAGICAL
+				\end{enumerate}
+			\end{enumerate}
+			Step 1 shows that the unicorn is mythical, step 6 shows that the unicorn is horned, and step 7 shows that the unicorn is magical.
+\end{enumerate}
+\end{document}

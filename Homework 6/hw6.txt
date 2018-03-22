@@ -1,0 +1,156 @@
+JONATHAN WOONG
+804205763
+CS 161 - FALL 2017
+DIS 1A
+HOMEWORK 6
+
+1. For each pair of atomic sentences, give the most general unifier if it exists:
+	(a) P(A,B,B), P(x,y,z) = {x/A, y/B, z/B}
+	(b) Q(y, G(A,B)), Q(G(x,x),y) = cannot unify
+	(c) R(x,A,z), R(B,y,z) = {x/B, y/A}
+	(d) Older(Father(y),y), Older(Father(x),John) = {y/John, x/John}
+	(e) Knows(Father(y),y), Knows(x,x) = cannot unify
+
+2. Consider the following sentences:
+	i. John likes all kinds of food.
+	ii. Apples are food.
+	iii. Chicken is food.
+	iv. Anything anyone eats and isn't killed by is food.
+	v. If you are killed by something, you are not alive.
+	vi. Bill eats peanuts and is still alive. *
+	vii. Sue eats everything Bill eats.
+
+	(a) Translate these sentences into formulas in first-order logic.
+		i. (A x)(Food(x) => Likes(John,x))
+		ii. Food(Apples)
+		iii. Food(Chicken)
+		iv. (A x,y)(Eats(x,y) & ~Kills(y,x) => Food(y))
+		v. (A x,y)(Kills(y,x) => ~Alive(x))
+		vi. Eats(Bill,Peanuts) & Alive(Bill)
+		vii. (A x)(Eats(Bill,x) => Eats(Sue,x))
+
+	(b) Convert the fomrulas of part (a) into CNF.
+
+		Simplify all =>
+		i. (A x)(~Food(x) | Likes(John,x))
+		iv. (A x,y)(~Eats(x,y) | Kills(y,x) | Food(y))
+		v. (A x,y)(~Kills(y,x) | ~Alive(x))
+		vii. (A x)(~Eats(Bill,x) | Eats(Sue,x))
+
+		Standardize variables
+		i. (A a)(~Food(a) | Likes(John,a))
+		iv. (A b,c)(~Eats(b,c) | Kills(c,b) | Food(c))
+		v. (A d,e)(~Kills(e,d) | ~Alive(d))
+		vii. (A f)(~Eats(Bill,f) | Eats(Sue,f))
+
+		Eliminate quantifiers
+		i. ~Food(a) | Likes(John,a)
+		iv. ~Eats(b,c) | Kills(c,b) | Food(c)
+		v. ~Kills(e,d) | ~Alive(d)
+		vii. ~Eats(Bill,f) | Eats(Sue,f)
+
+	(c) Prove that John likes peanuts using resolution.
+		
+		i. ~Food(a) | Likes(John,a)
+		ii. Food(Apples)
+		iii. Food(Chicken)
+		iv. ~Eats(b,c) | Kills(c,b) | Food(c)
+		v. ~Kills(e,d) | ~Alive(d)
+		vi. Eats(Bill,Peanuts)
+		vii. Alive(Bill)
+		viii. ~Eats(Bill,f) | Eats(Sue,f)
+
+		Assume John does not like peanuts:
+		ix. ~Likes(John, Peanuts)
+		x. Resolve i and ix: ~Food(Peanuts)
+		xi. Resolve v and vii: ~Kills(e,Bill)
+		xii. Resolve iv and xi: ~Eats(Bill,c) | Food(c)
+		xiii. Resolve vi and xii: Food(Peanuts) 
+
+		There is a contradiction between x and xiii, therefore John likes peanuts.
+
+	(d) Use resolution to answer the question, "What food does Sue eat?"
+
+		Use i to vii from above.
+		Assume Sue does not eat peanuts.
+		ix. ~Eats(Sue,Peanuts)
+		x. Resolve vi and viii: Eats(Sue,Peanuts)
+
+		There is a contradiction between ix and x, therefore Sue eats peanuts.
+
+	(e) Use resolution to answer (d) if, instead of the axiom marked with an asterisk above, we had:
+	• If you don't eat, you die
+	• If you die, you are not alive.
+	• Bill is alive.
+
+		New knowledge base:
+		i. ~Food(a) | Likes(John,a)
+		ii. Food(Apples)
+		iii. Food(Chicken)
+		iv. ~Eats(b,c) | Kills(c,b) | Food(c)
+		v. ~Kills(e,d) | ~Alive(d)
+		vi. Eats(g,h) | Dies(g)
+		vii. ~Dies(i) | ~Alive(i)
+		viii. Alive(Bill)
+		ix. ~Eats(Bill,f) | Eats(Sue,f)
+
+		Assume Sue does not eat apples:
+		x. ~Eats(Sue,Apples)
+		xi. Resolve vi and x: Dies(Sue)
+		xii. Resolve vii and xi: ~Alive(Sue)
+		xiii. Resolve v and viii: ~Kills(e,Bill)
+		xix: Resolve ix and x: ~Eats(Bill,Apples)
+		xx: Resolve vi and xix: Dies(Bill)
+		xxi: Resolve xii and xx: ~Alive(Bill)
+
+		There is a contradiction between viii and xxi, therefore Sue eats apples.
+
+3. 
+	(a) Is the instance satisfiable for 3 colors? 
+
+		No.
+
+	(b) Is the instance satisfiable for 4 colors? 
+
+		Yes.
+
+	(c) What do the answers of these two SAT instances tell you about the graph coloring problem of the above graph? Can you give a solution to the graph coloring problem based on the results of RSat?
+
+		The graph coloring problem for graph1.txt requires 4 colors to be satisfiable. 
+
+		By running RSat with the '-s' flag, we get the following solution:
+		(-1 -2 -3 4 
+		-5 -6 7 -8 
+		-9 10 -11 -12
+		-13 -14 15 -16 
+		17 -18 -19 -20 
+		-21 22 -23 -24 
+		25 -26 -27 -28)
+
+		The colorings are given as (Node,Color) below:
+		(1,4)
+		(2,3)
+		(3,2)
+		(4,3)
+		(5,1)
+		(6,2)
+		(7,1)
+
+	(d) What is the minimum number of colors required to properly color graph2.txt? 
+
+		8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
